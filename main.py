@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from config.database import engine, Base
+from middlewares.error_handler import ErrorHandler
 from fastapi.middleware.cors import CORSMiddleware
 
+from routers.user import user_router
 
 app = FastAPI()
 app.title = "Critics API"
@@ -16,10 +18,12 @@ origins = [
 
 app.add_middleware(ErrorHandler)
 app.add_middleware(CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+                   allow_origins=origins,
+                   allow_credentials=True,
+                   allow_methods=["*"],
+                   allow_headers=["*"],
                    )
+
+app.include_router(user_router)
 
 Base.metadata.create_all(bind=engine)

@@ -7,22 +7,22 @@ class InvolvedCompanyService():
     def __init__(self, db) -> None:
         self.db = db
 
-    def get_involvedcompanies(self):
+    def getInvolvedCompanies(self):
         result = self.db.query(InvolvedCompanyModel).all()
         return result
 
-    def get_involvedcompany(self, id: int):
+    def getInvolvedCompany(self, id: int):
         result = self.db.query(InvolvedCompanyModel).filter(
             InvolvedCompanyModel.id == id).first()
         return result
 
-    def create_involvedcompany(self, involvedcompany: InvolvedCompany):
+    def createInvolvedCompany(self, involvedcompany: InvolvedCompany):
         new_involvedcompany = InvolvedCompanyModel(**involvedcompany.dict())
         self.db.add(new_involvedcompany)
         self.db.commit()
         return
 
-    def update_involvedcompany(self, id: int, data: InvolvedCompany):
+    def updateInvolvedCompany(self, id: int, data: InvolvedCompany):
         involvedcompany = self.db.query(InvolvedCompanyModel).filter(
             InvolvedCompanyModel.id == id).first()
         involvedcompany.developer = data.developer
@@ -32,7 +32,7 @@ class InvolvedCompanyService():
         self.db.commit()
         return
 
-    def delete_involvedcompany(self, id: int):
+    def deleteInvolvedCompany(self, id: int):
         self.db.query(InvolvedCompanyModel).filter(
             InvolvedCompanyModel.id == id).delete()
         self.db.commit()

@@ -10,7 +10,7 @@ class User(BaseModel):
         min_length=5, regex="([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
     password: str = Field(min_length=6)
     role: str
-    critics_count = Optional[int]
+    critics_count: Optional[int] = 0
 
     class Config:
         schema_extra = {

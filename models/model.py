@@ -7,7 +7,7 @@ class UserModel(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
+    username = Column(String, unique=True)
     email = Column(String, unique=True, index=True)
     password = Column(String)
     role = Column(String)
@@ -41,9 +41,10 @@ class CompanyModel(Base):
     start_date = Column(Date)
     country = Column(String)
     cover = Column(String)
+    games_count = Column(Integer)
 
     critics_companies = relationship(
-        "CompanyModel", back_populates="companies_critics")
+        "CriticModel", back_populates="companies_critics")
     involvedcompanies_companies = relationship(
         "InvolvedCompanyModel", back_populates="companies_involvedcompanies")
 
@@ -74,14 +75,12 @@ class GameModel(Base):
     rating = Column(Float)
     cover = Column(String)
     parent_id = Column(Integer, ForeignKey("games.id"))
-    gameplatform_id = Column(Integer, ForeignKey("gameplatform.id"))
-    gamegenre_id = Column(Integer, ForeignKey("gamegenre.id"))
 
     critics_games = relationship("CriticModel", back_populates="games_critics")
     involvedcompanies_games = relationship(
         "InvolvedCompanyModel", back_populates="games_involvedcompanies")
 
-    parent_id = relationship("GameModel", back_populates="games.id")
+    parent = relationship("GameModel", remote_side=[id])
 
     gamesplatforms_games = relationship(
         "GamePlatformModel", back_populates="games_gamesplatforms")
@@ -97,7 +96,7 @@ class GamePlatformModel(Base):
     platform_id = Column(Integer, ForeignKey("platforms.id"))
 
     games_gamesplatforms = relationship(
-        "GamesModel", back_populates="gamesplatforms_games")
+        "GameModel", back_populates="gamesplatforms_games")
     platforms_gamesplatforms = relationship(
         "PlatformModel", back_populates="gamesplatforms_platforms")
 
@@ -108,7 +107,6 @@ class PlatformModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     category = Column(Integer)
-    platformgame_id = Column(Integer, ForeignKey("gamesplatforms.id"))
 
     gamesplatforms_platforms = relationship(
         "GamePlatformModel", back_populates="platforms_gamesplatforms")
@@ -122,7 +120,7 @@ class GameGenreModel(Base):
     genre_id = Column(Integer, ForeignKey("genres.id"))
 
     games_gamesgenres = relationship(
-        "GamesModel", back_populates="gamesgenres_games")
+        "GameModel", back_populates="gamesgenres_games")
     genres_gamesgenres = relationship(
         "GenreModel", back_populates="gamesgenres_genres")
 
@@ -132,8 +130,6 @@ class GenreModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
-    category = Column(Integer)
-    genregame_id = Column(Integer, ForeignKey("gamesgenres.id"))
 
     gamesgenres_genres = relationship(
         "GameGenreModel", back_populates="genres_gamesgenres")

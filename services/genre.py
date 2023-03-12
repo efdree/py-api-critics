@@ -7,22 +7,22 @@ class GenreService():
     def __init__(self, db) -> None:
         self.db = db
 
-    def get_genres(self):
+    def getGenres(self):
         result = self.db.query(GenreModel).all()
         return result
 
-    def get_genre(self, id: int):
+    def getGenre(self, id: int):
         result = self.db.query(GenreModel).filter(
             GenreModel.id == id).first()
         return result
 
-    def create_genre(self, genre: Genre):
+    def createGenre(self, genre: Genre):
         new_genre = GenreModel(**genre.dict())
         self.db.add(new_genre)
         self.db.commit()
         return
 
-    def update_genre(self, id: int, data: Genre):
+    def updateGenre(self, id: int, data: Genre):
         genre = self.db.query(GenreModel).filter(
             GenreModel.id == id).first()
         genre.name = data.name
@@ -30,7 +30,7 @@ class GenreService():
         self.db.commit()
         return
 
-    def delete_genre(self, id: int):
+    def deleteGenre(self, id: int):
         self.db.query(GenreModel).filter(
             GenreModel.id == id).delete()
         self.db.commit()

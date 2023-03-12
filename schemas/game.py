@@ -13,8 +13,6 @@ class Game(BaseModel):
     rating: float
     cover: str
     parent_id: int
-    gameplatform_id: int
-    gamegenre_id: int
 
     class Config:
         schema_extra = {
@@ -25,8 +23,6 @@ class Game(BaseModel):
                 "category": 1,
                 "rating": 1,
                 "cover": "cover",
-                "parent_id": 1,
-                "gameplatform_id": 1,
-                "gamegenre_id": 1
+                "parent_id": 1
             }
         }

@@ -1,4 +1,4 @@
-from models.model import GameModel
+from models.model import GameModel, InvolvedCompanyModel
 from schemas.game import Game
 
 
@@ -7,22 +7,27 @@ class GameService():
     def __init__(self, db) -> None:
         self.db = db
 
-    def get_games(self):
+    def getGames(self):
         result = self.db.query(GameModel).all()
         return result
 
-    def get_game(self, id: int):
+    def getGame(self, id: int):
         result = self.db.query(GameModel).filter(
             GameModel.id == id).first()
         return result
 
-    def create_game(self, game: Game):
+    def getGamesByCompany(self, company_id: int):
+        result = self.db.query(InvolvedCompanyModel).filter(
+            InvolvedCompanyModel.company_id == company_id).all()
+        return result
+
+    def createGame(self, game: Game):
         new_game = GameModel(**game.dict())
         self.db.add(new_game)
         self.db.commit()
         return
 
-    def update_game(self, id: int, data: Game):
+    def updateGame(self, id: int, data: Game):
         game = self.db.query(GameModel).filter(
             GameModel.id == id).first()
         game.name = data.name
@@ -37,7 +42,7 @@ class GameService():
         self.db.commit()
         return
 
-    def delete_game(self, id: int):
+    def deleteGame(self, id: int):
         self.db.query(GameModel).filter(
             GameModel.id == id).delete()
         self.db.commit()

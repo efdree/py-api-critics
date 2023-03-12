@@ -11,6 +11,7 @@ class Company(BaseModel):
     start_date: date
     country: str
     cover: str
+    games_count: Optional[int] = 0
 
     class Config:
         schema_extra = {
@@ -19,6 +20,7 @@ class Company(BaseModel):
                 "description": "Company Description",
                 "start_date": "2023-01-01",
                 "country": "Peru",
-                "cover": "Cover"
+                "cover": "Cover",
+                "games_count": 0
             }
         }
